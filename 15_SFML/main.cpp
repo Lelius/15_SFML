@@ -1,8 +1,9 @@
 ﻿#include <SFML/Graphics.hpp>
 #include "BoxWithChips.h"
 
-int initialised();
+int initialization();
 void visualizeChips();
+bool positionTheSprite(int numberSprite, int x , int y);
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -21,7 +22,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(445, 495), "Пятнашки");
 	window.setVerticalSyncEnabled(true);
 
-	if (initialised() == EXIT_FAILURE)
+	if (initialization() == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
 	BoxWithChips *boxWithChips = new BoxWithChips(4, 4);
@@ -60,8 +61,64 @@ void visualizeChips()
 
 }
 
+bool positionTheSprite(int numberSprite, int x, int y)
+{
+	switch (numberSprite)
+	{
+	case 1:
+		chip_1_Sprite.setPosition(x, y);
+		break;
+	case 2:
+		chip_2_Sprite.setPosition(x, y);
+		break;
+	case 3:
+		chip_3_Sprite.setPosition(x, y);
+		break;
+	case 4:
+		chip_4_Sprite.setPosition(x, y);
+	case 5:
+		chip_5_Sprite.setPosition(x, y);
+		break;
+	case 6:
+		chip_6_Sprite.setPosition(x, y);
+		break;
+	case 7:
+		chip_7_Sprite.setPosition(x, y);
+		break;
+	case 8:
+		chip_8_Sprite.setPosition(x, y);
+		break;
+	case 9:
+		chip_9_Sprite.setPosition(x, y);
+		break;
+	case 10:
+		chip_10_Sprite.setPosition(x, y);
+		break;
+	case 11:
+		chip_11_Sprite.setPosition(x, y);
+		break;
+	case 12:
+		chip_12_Sprite.setPosition(x, y);
+		break;
+	case 13:
+		chip_13_Sprite.setPosition(x, y);
+		break;
+	case 14:
+		chip_14_Sprite.setPosition(x, y);
+		break;
+	case 15:
+		chip_15_Sprite.setPosition(x, y);
+		break;
+	default:
+		return false;
+		break;
+	}
 
-int initialised()
+	return true;
+}
+
+
+int initialization()
 {
 	if (!boxTexture.loadFromFile("image/box.png"))
 		return EXIT_FAILURE;
