@@ -2,7 +2,7 @@
 #include "BoxWithChips.h"
 
 int initialization();
-void visualizeChips();
+void visualizeChips(BoxWithChips *, sf::RenderWindow &);
 bool positionTheSprite(int numberSprite, int x , int y);
 
 sf::Texture boxTexture;
@@ -28,10 +28,7 @@ int main()
 	BoxWithChips *boxWithChips = new BoxWithChips(4, 4);
 	boxWithChips->randomChips();
 
-	boxSprite.setPosition(0, 50);
-
-
-	window.draw(boxSprite);
+	visualizeChips(boxWithChips, window);
 
 	// Главный цикл приложения. Выполняется, пока открыто окно
 	while (window.isOpen())
@@ -46,7 +43,8 @@ int main()
 				window.close();
 		}
 		// Отрисовка окна	
-		window.draw(boxSprite);
+		window.clear();
+		visualizeChips(boxWithChips, window);
 		window.display();
 	}
 
@@ -56,9 +54,36 @@ int main()
 }
 
 
-void visualizeChips()
+void visualizeChips(BoxWithChips *box, sf::RenderWindow &window)
 {
+	boxSprite.setPosition(0, 0);
 
+	int numberChip{};
+	for (int j = 0; j < box->getYNum(); ++j)
+	{
+		for (int i = 0; i < box->getXNum(); ++i)
+		{
+			numberChip = box->getBoxWithChips()[i + (j * 4)];
+			positionTheSprite(numberChip, (15 + (i * 105)), (15 + (j * 105)));
+		}
+	}
+
+	window.draw(boxSprite);
+	window.draw(chip_1_Sprite);
+	window.draw(chip_2_Sprite);
+	window.draw(chip_3_Sprite);
+	window.draw(chip_4_Sprite);
+	window.draw(chip_5_Sprite);
+	window.draw(chip_6_Sprite);
+	window.draw(chip_7_Sprite);
+	window.draw(chip_8_Sprite);
+	window.draw(chip_9_Sprite);
+	window.draw(chip_10_Sprite);
+	window.draw(chip_11_Sprite);
+	window.draw(chip_12_Sprite);
+	window.draw(chip_13_Sprite);
+	window.draw(chip_14_Sprite);
+	window.draw(chip_15_Sprite);
 }
 
 bool positionTheSprite(int numberSprite, int x, int y)
