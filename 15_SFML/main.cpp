@@ -2,11 +2,18 @@
 #include "BoxWithChips.h"
 
 int initialised();
+void visualizeChips();
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
 sf::Texture chip_6_Texture, chip_7_Texture, chip_8_Texture, chip_9_Texture, chip_10_Texture;
 sf::Texture chip_11_Texture, chip_12_Texture, chip_13_Texture, chip_14_Texture, chip_15_Texture;
+
+sf::Sprite boxSprite;
+sf::Sprite chip_1_Sprite, chip_2_Sprite, chip_3_Sprite, chip_4_Sprite, chip_5_Sprite;
+sf::Sprite chip_6_Sprite, chip_7_Sprite, chip_8_Sprite, chip_9_Sprite, chip_10_Sprite;
+sf::Sprite chip_11_Sprite, chip_12_Sprite, chip_13_Sprite, chip_14_Sprite, chip_15_Sprite;
+
 
 int main()
 {
@@ -14,29 +21,14 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(445, 495), "Пятнашки");
 	window.setVerticalSyncEnabled(true);
 
-	BoxWithChips *boxWithChips = new BoxWithChips(4, 4);
-
 	if (initialised() == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
-	sf::Sprite boxSprite(boxTexture);
-	sf::Sprite chip_1_Sprite(chip_1_Texture);
-	sf::Sprite chip_2_Sprite(chip_2_Texture);
-	sf::Sprite chip_3_Sprite(chip_3_Texture);
-	sf::Sprite chip_4_Sprite(chip_4_Texture);
-	sf::Sprite chip_5_Sprite(chip_5_Texture);
-	sf::Sprite chip_6_Sprite(chip_6_Texture);
-	sf::Sprite chip_7_Sprite(chip_7_Texture);
-	sf::Sprite chip_8_Sprite(chip_8_Texture);
-	sf::Sprite chip_9_Sprite(chip_9_Texture);
-	sf::Sprite chip_10_Sprite(chip_10_Texture);
-	sf::Sprite chip_11_Sprite(chip_11_Texture);
-	sf::Sprite chip_12_Sprite(chip_12_Texture);
-	sf::Sprite chip_13_Sprite(chip_13_Texture);
-	sf::Sprite chip_14_Sprite(chip_14_Texture);
-	sf::Sprite chip_15_Sprite(chip_15_Texture);
+	BoxWithChips *boxWithChips = new BoxWithChips(4, 4);
+	boxWithChips->randomChips();
 
 	boxSprite.setPosition(0, 50);
+
 
 	window.draw(boxSprite);
 
@@ -57,9 +49,15 @@ int main()
 		window.display();
 	}
 
-	delete[]boxWithChips;
+	delete boxWithChips;
 
 	return 0;
+}
+
+
+void visualizeChips()
+{
+
 }
 
 
@@ -97,4 +95,21 @@ int initialised()
 		return EXIT_FAILURE;
 	if (!chip_15_Texture.loadFromFile("image/15_chip.png"))
 		return EXIT_FAILURE;
+
+	boxSprite.setTexture(boxTexture);
+	chip_1_Sprite.setTexture(chip_1_Texture);
+	chip_2_Sprite.setTexture(chip_2_Texture);
+	chip_3_Sprite.setTexture(chip_3_Texture);
+	chip_4_Sprite.setTexture(chip_4_Texture);
+	chip_5_Sprite.setTexture(chip_5_Texture);
+	chip_6_Sprite.setTexture(chip_6_Texture);
+	chip_7_Sprite.setTexture(chip_7_Texture);
+	chip_8_Sprite.setTexture(chip_8_Texture);
+	chip_9_Sprite.setTexture(chip_9_Texture);
+	chip_10_Sprite.setTexture(chip_10_Texture);
+	chip_11_Sprite.setTexture(chip_11_Texture);
+	chip_12_Sprite.setTexture(chip_12_Texture);
+	chip_13_Sprite.setTexture(chip_13_Texture);
+	chip_14_Sprite.setTexture(chip_14_Texture);
+	chip_15_Sprite.setTexture(chip_15_Texture);
 }
