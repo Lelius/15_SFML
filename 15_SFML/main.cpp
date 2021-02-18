@@ -5,6 +5,7 @@ int initialization();
 void visualizeChips(BoxWithChips *, sf::RenderWindow &);
 bool positionTheSprite(int numberSprite, int x, int y);
 int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
+bool checkChipMovement(int, BoxWithChips *);
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -22,7 +23,8 @@ sf::Sprite restartButtonSprite, quitButtonSprite;
 int main()
 {
 	// Объект, который, собственно, является главным окном приложения
-	sf::RenderWindow window(sf::VideoMode(445, 495), "Пятнашки");
+	const wchar_t *nameWindow = L"Пятнашки";
+	sf::RenderWindow window(sf::VideoMode(445, 495), nameWindow);
 	window.setVerticalSyncEnabled(true);
 
 	if (initialization() == EXIT_FAILURE)
@@ -74,7 +76,7 @@ int main()
 			{
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					int globalNumBox = getGlobalNumInBox(sf::Mouse::getPosition(), boxWithChips);
+					checkChipMovement(getGlobalNumInBox(sf::Mouse::getPosition(window), boxWithChips), boxWithChips);
 				}
 			}
 
@@ -92,6 +94,34 @@ int main()
 	delete boxWithChips;
 
 	return 0;
+}
+
+
+bool checkChipMovement(int globalNumChip, BoxWithChips *box)
+{
+	if (globalNumChip < 0)
+		return false;
+	if ((globalNumChip % box->getYNum()) > 0 && (globalNumChip - 1) == box->getPosEmptyPlace())
+	{
+		box->toTheLeftChip();
+		return true;
+	}
+	if ((globalNumChip % box->getYNum()) < (box->getXNum() - 1) && (globalNumChip + 1) == box->getPosEmptyPlace())
+	{
+		box->toTheRightChip();
+		return true;
+	}
+	if ((globalNumChip / box->getXNum()) > 0 && (globalNumChip - box->getXNum()) == box->getPosEmptyPlace())
+	{
+		box->toTheUpChip();
+		return true;
+	}
+	if ((globalNumChip / box->getXNum()) < (box->getYNum() - 1) && (globalNumChip + box->getXNum()) == box->getPosEmptyPlace())
+	{
+		box->toTheBottomChip();
+		return true;
+	}
+	return false;
 }
 
 
