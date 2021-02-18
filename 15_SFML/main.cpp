@@ -3,7 +3,8 @@
 
 int initialization();
 void visualizeChips(BoxWithChips *, sf::RenderWindow &);
-bool positionTheSprite(int numberSprite, int x , int y);
+bool positionTheSprite(int numberSprite, int x, int y);
+int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -39,12 +40,50 @@ int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
+			if (event.type == sf::Event::KeyPressed)
+			{
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Space:
+					boxWithChips->randomChips();
+					break;
+				case sf::Keyboard::Enter:
+					boxWithChips->randomChips();
+					break;
+				case sf::Keyboard::Escape:
+					window.close();
+					break;
+				case sf::Keyboard::Up:
+					boxWithChips->toTheUpChip();
+					break;
+				case sf::Keyboard::Down:
+					boxWithChips->toTheBottomChip();
+					break;
+				case sf::Keyboard::Left:
+					boxWithChips->toTheLeftChip();
+					break;
+				case sf::Keyboard::Right:
+					boxWithChips->toTheRightChip();
+					break;
+				default:
+					break;
+				}
+			}
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					int globalNumBox = getGlobalNumInBox(sf::Mouse::getPosition(), boxWithChips);
+				}
+			}
+
 			// Пользователь нажал на «крестик» и хочет закрыть окно?
 			if (event.type == sf::Event::Closed)
 				// тогда закрываем его
 				window.close();
 		}
-		// Отрисовка окна	
+		// Отрисовка окна
 		window.clear();
 		visualizeChips(boxWithChips, window);
 		window.display();
@@ -56,9 +95,24 @@ int main()
 }
 
 
+int getGlobalNumInBox(sf::Vector2i posMouse, BoxWithChips *box)
+{
+	for (int j = 0; j < box->getYNum(); ++j)
+	{
+		for (int i = 0; i < box->getXNum(); ++i)
+		{
+			if (posMouse.x >= 15 + 105 * i && posMouse.x < 115 + 105 * i)
+				if (posMouse.y >= 15 + 105 * j && posMouse.y < 115 + 105 * j)
+					return i + 4 * j;
+		}
+	}
+	return -1;
+}
+
+
 void visualizeChips(BoxWithChips *box, sf::RenderWindow &window)
 {
-	
+
 
 	boxSprite.setPosition(0, 0);
 
@@ -111,6 +165,7 @@ bool positionTheSprite(int numberSprite, int x, int y)
 		break;
 	case 4:
 		chip_4_Sprite.setPosition(x, y);
+		break;
 	case 5:
 		chip_5_Sprite.setPosition(x, y);
 		break;
