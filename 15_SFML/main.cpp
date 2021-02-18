@@ -76,6 +76,13 @@ int main()
 			{
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
+
+					if (sf::Mouse::getPosition(window).x >= 0 && sf::Mouse::getPosition(window).x < 332)
+						if (sf::Mouse::getPosition(window).y >= 445 && sf::Mouse::getPosition(window).y < 495)
+							boxWithChips->randomChips();
+					if (sf::Mouse::getPosition(window).x >= 333 && sf::Mouse::getPosition(window).x < 445)
+						if (sf::Mouse::getPosition(window).y >= 445 && sf::Mouse::getPosition(window).y < 495)
+							window.close();
 					checkChipMovement(getGlobalNumInBox(sf::Mouse::getPosition(window), boxWithChips), boxWithChips);
 				}
 			}
