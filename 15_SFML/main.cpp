@@ -2,7 +2,7 @@
 #include "BoxWithChips.h"
 
 int initialization();
-void visualizeChips(BoxWithChips *, sf::RenderWindow &);
+void visualizeChips(sf::RenderWindow &, BoxWithChips *);
 bool positionTheSprite(int numberSprite, int x, int y);
 int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 bool checkChipMovement(int, BoxWithChips *);
@@ -36,7 +36,7 @@ int main()
 	BoxWithChips *boxWithChips = new BoxWithChips(4, 4);
 	boxWithChips->randomChips();
 
-	visualizeChips(boxWithChips, window);
+	visualizeChips(window, boxWithChips);
 
 	// Главный цикл приложения. Выполняется, пока открыто окно
 	while (window.isOpen())
@@ -58,6 +58,15 @@ int main()
 				case sf::Keyboard::Escape:
 					window.close();
 					break;
+				default:
+					break;
+				}
+			}
+
+			if (event.type == sf::Event::KeyPressed && boxWithChips->isMatchingChips() == false)
+			{
+				switch (event.key.code)
+				{
 				case sf::Keyboard::Up:
 					boxWithChips->toTheUpChip();
 					break;
@@ -86,7 +95,8 @@ int main()
 					if (sf::Mouse::getPosition(window).x >= 333 && sf::Mouse::getPosition(window).x < 445)
 						if (sf::Mouse::getPosition(window).y >= 445 && sf::Mouse::getPosition(window).y < 495)
 							window.close();
-					checkChipMovement(getGlobalNumInBox(sf::Mouse::getPosition(window), boxWithChips), boxWithChips);
+					if (!boxWithChips->isMatchingChips())
+						checkChipMovement(getGlobalNumInBox(sf::Mouse::getPosition(window), boxWithChips), boxWithChips);
 				}
 			}
 
@@ -96,13 +106,17 @@ int main()
 				window.close();
 		}
 		// Отрисовка окна
-		window.clear();
-		visualizeChips(boxWithChips, window);
-		window.display();
-
 		if (boxWithChips->isMatchingChips())
 		{
+			window.clear();
 			winWindow(window, boxWithChips);
+			window.display();
+		}
+		else
+		{
+			window.clear();
+			visualizeChips(window, boxWithChips);
+			window.display();
 		}
 	}
 
@@ -140,7 +154,7 @@ bool checkChipMovement(int globalNumChip, BoxWithChips *box)
 }
 
 
-void winWindow(sf::RenderWindow &, BoxWithChips *)
+void winWindow(sf::RenderWindow &winWindow, BoxWithChips *box)
 {
 
 }
@@ -161,7 +175,7 @@ int getGlobalNumInBox(sf::Vector2i posMouse, BoxWithChips *box)
 }
 
 
-void visualizeChips(BoxWithChips *box, sf::RenderWindow &window)
+void visualizeChips(sf::RenderWindow &window, BoxWithChips *box)
 {
 
 
