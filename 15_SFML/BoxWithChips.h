@@ -25,6 +25,7 @@ public:
 	bool toTheRightChip();
 	bool toTheUpChip();
 	bool toTheBottomChip();
+	void buildInOrederChips();
 
 private:
 	bool setSizeBox(int);

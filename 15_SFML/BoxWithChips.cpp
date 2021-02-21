@@ -157,6 +157,13 @@ bool BoxWithChips::toTheBottomChip()
 	}
 }
 
+void BoxWithChips::buildInOrederChips()
+{
+	for (int i = 0; i < getSizeBox() - 1; ++i)
+		boxWithChips[i] = i + 1;
+	boxWithChips[getSizeBox() - 1] = 0;
+}
+
 const int *BoxWithChips::getBoxWithChips()
 {
 	return boxWithChips;

@@ -6,7 +6,7 @@ void visualizeChips(sf::RenderWindow &, BoxWithChips *);
 bool positionTheSprite(int numberSprite, int x, int y);
 int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 bool checkChipMovement(int, BoxWithChips *);
-void winWindow(sf::RenderWindow &, BoxWithChips *);
+void winWindow(sf::RenderWindow &, sf::Clock);
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -29,6 +29,9 @@ int main()
 	const wchar_t *nameWindow = L"Пятнашки";
 	sf::RenderWindow window(sf::VideoMode(445, 495), nameWindow);
 	window.setVerticalSyncEnabled(true);
+
+	sf::Clock clock;
+	clock.restart();
 
 	if (initialization() == EXIT_FAILURE)
 		return EXIT_FAILURE;
@@ -79,6 +82,9 @@ int main()
 				case sf::Keyboard::Right:
 					boxWithChips->toTheRightChip();
 					break;
+				case sf::Keyboard::F1:
+					boxWithChips->buildInOrederChips();
+					break;
 				default:
 					break;
 				}
@@ -109,7 +115,7 @@ int main()
 		if (boxWithChips->isMatchingChips())
 		{
 			window.clear();
-			winWindow(window, boxWithChips);
+			winWindow(window, clock);
 			window.display();
 		}
 		else
@@ -154,9 +160,30 @@ bool checkChipMovement(int globalNumChip, BoxWithChips *box)
 }
 
 
-void winWindow(sf::RenderWindow &winWindow, BoxWithChips *box)
+void winWindow(sf::RenderWindow &winWindow, sf::Clock clock)
 {
+	sf::Time time;
+	time = clock.getElapsedTime();
 
+	boxSprite.setPosition(0, 0);
+	winWindow.draw(boxSprite);
+
+	if (time.asMilliseconds() % 1000 < 500)
+	{
+		wellBlackSprite.setPosition(35, 45);
+		winWindow.draw(wellBlackSprite);
+	}
+	else
+	{
+		wellWhiteSprite.setPosition(35, 45);
+		winWindow.draw(wellWhiteSprite);
+	}
+
+	restartButtonSprite.setPosition(0, 445);
+	quitButtonSprite.setPosition(333, 445);
+
+	winWindow.draw(restartButtonSprite);
+	winWindow.draw(quitButtonSprite);
 }
 
 
@@ -311,9 +338,9 @@ int initialization()
 		return EXIT_FAILURE;
 	if (!quitButtonTexture.loadFromFile("image/X2.png"))
 		return EXIT_FAILURE;
-	if (!wellBlackTexture.loadFromFile("image/well-black_445x410.png"))
+	if (!wellBlackTexture.loadFromFile("image/well-black_380x350.png"))
 		return EXIT_FAILURE;
-	if (!wellWhiteTexture.loadFromFile("image/well-white_445x410.png"))
+	if (!wellWhiteTexture.loadFromFile("image/well-white_380x350.png"))
 		return EXIT_FAILURE;
 
 	boxSprite.setTexture(boxTexture);
