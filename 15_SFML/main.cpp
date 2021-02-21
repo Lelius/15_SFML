@@ -13,12 +13,14 @@ sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip
 sf::Texture chip_6_Texture, chip_7_Texture, chip_8_Texture, chip_9_Texture, chip_10_Texture;
 sf::Texture chip_11_Texture, chip_12_Texture, chip_13_Texture, chip_14_Texture, chip_15_Texture;
 sf::Texture restarButtonTexture, quitButtonTexture;
+sf::Texture wellBlackTexture, wellWhiteTexture;
 
 sf::Sprite boxSprite;
 sf::Sprite chip_1_Sprite, chip_2_Sprite, chip_3_Sprite, chip_4_Sprite, chip_5_Sprite;
 sf::Sprite chip_6_Sprite, chip_7_Sprite, chip_8_Sprite, chip_9_Sprite, chip_10_Sprite;
 sf::Sprite chip_11_Sprite, chip_12_Sprite, chip_13_Sprite, chip_14_Sprite, chip_15_Sprite;
 sf::Sprite restartButtonSprite, quitButtonSprite;
+sf::Sprite wellBlackSprite, wellWhiteSprite;
 
 
 int main()
@@ -97,9 +99,10 @@ int main()
 		window.clear();
 		visualizeChips(boxWithChips, window);
 		window.display();
+
 		if (boxWithChips->isMatchingChips())
 		{
-
+			winWindow(window, boxWithChips);
 		}
 	}
 
@@ -294,6 +297,10 @@ int initialization()
 		return EXIT_FAILURE;
 	if (!quitButtonTexture.loadFromFile("image/X2.png"))
 		return EXIT_FAILURE;
+	if (!wellBlackTexture.loadFromFile("image/well-black_445x410.png"))
+		return EXIT_FAILURE;
+	if (!wellWhiteTexture.loadFromFile("image/well-white_445x410.png"))
+		return EXIT_FAILURE;
 
 	boxSprite.setTexture(boxTexture);
 	chip_1_Sprite.setTexture(chip_1_Texture);
@@ -313,4 +320,6 @@ int initialization()
 	chip_15_Sprite.setTexture(chip_15_Texture);
 	restartButtonSprite.setTexture(restarButtonTexture);
 	quitButtonSprite.setTexture(quitButtonTexture);
+	wellBlackSprite.setTexture(wellBlackTexture);
+	wellWhiteSprite.setTexture(wellWhiteTexture);
 }
