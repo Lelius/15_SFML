@@ -6,6 +6,7 @@ void visualizeChips(BoxWithChips *, sf::RenderWindow &);
 bool positionTheSprite(int numberSprite, int x, int y);
 int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 bool checkChipMovement(int, BoxWithChips *);
+void winWindow(sf::RenderWindow &, BoxWithChips *);
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -96,6 +97,10 @@ int main()
 		window.clear();
 		visualizeChips(boxWithChips, window);
 		window.display();
+		if (boxWithChips->isMatchingChips())
+		{
+
+		}
 	}
 
 	delete boxWithChips;
@@ -129,6 +134,12 @@ bool checkChipMovement(int globalNumChip, BoxWithChips *box)
 		return true;
 	}
 	return false;
+}
+
+
+void winWindow(sf::RenderWindow &, BoxWithChips *)
+{
+
 }
 
 
