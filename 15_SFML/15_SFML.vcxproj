@@ -149,9 +149,11 @@
   <ItemGroup>
     <ClCompile Include="BoxWithChips.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpriteHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoxWithChips.h" />
+    <ClInclude Include="SpriteHolder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
