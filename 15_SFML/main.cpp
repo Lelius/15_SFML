@@ -5,10 +5,9 @@
 
 int initialization(SpriteHolder *);
 void visualizeChips(sf::RenderWindow &, BoxWithChips *, SpriteHolder *);
-bool positionTheSprite(int numberSprite, float x, float y);
 int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 bool checkChipMovement(int, BoxWithChips *);
-void winWindow(sf::RenderWindow &, sf::Clock);
+void winWindow(sf::RenderWindow &, sf::Clock, SpriteHolder *);
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -16,14 +15,6 @@ sf::Texture chip_6_Texture, chip_7_Texture, chip_8_Texture, chip_9_Texture, chip
 sf::Texture chip_11_Texture, chip_12_Texture, chip_13_Texture, chip_14_Texture, chip_15_Texture;
 sf::Texture restarButtonTexture, quitButtonTexture;
 sf::Texture wellBlackTexture, wellWhiteTexture;
-
-sf::Sprite boxSprite;
-sf::Sprite chip_1_Sprite, chip_2_Sprite, chip_3_Sprite, chip_4_Sprite, chip_5_Sprite;
-sf::Sprite chip_6_Sprite, chip_7_Sprite, chip_8_Sprite, chip_9_Sprite, chip_10_Sprite;
-sf::Sprite chip_11_Sprite, chip_12_Sprite, chip_13_Sprite, chip_14_Sprite, chip_15_Sprite;
-sf::Sprite restartButtonSprite, quitButtonSprite;
-sf::Sprite wellBlackSprite, wellWhiteSprite;
-
 
 int main()
 {
@@ -119,7 +110,7 @@ int main()
 		if (boxWithChips->isMatchingChips())
 		{
 			window.clear();
-			winWindow(window, clock);
+			winWindow(window, clock, spriteHolder);
 			window.display();
 		}
 		else
@@ -165,30 +156,29 @@ bool checkChipMovement(int globalNumChip, BoxWithChips *box)
 }
 
 
-void winWindow(sf::RenderWindow &winWindow, sf::Clock clock)
+void winWindow(sf::RenderWindow &winWindow, sf::Clock clock, SpriteHolder *spriteHolder)
 {
 	sf::Time time;
 	time = clock.getElapsedTime();
-
-	boxSprite.setPosition(0, 0);
-	winWindow.draw(boxSprite);
+	
+	spriteHolder->setSpritePosition("box", 0, 0);
+	winWindow.draw(spriteHolder->getSpriteOfHolder("box"));
 
 	if (time.asMilliseconds() % 1000 < 500)
 	{
-		wellBlackSprite.setPosition(35, 45);
-		winWindow.draw(wellBlackSprite);
+		spriteHolder->setSpritePosition("wellBlack", 35, 45);
+		winWindow.draw(spriteHolder->getSpriteOfHolder("wellBlack"));
 	}
 	else
 	{
-		wellWhiteSprite.setPosition(35, 45);
-		winWindow.draw(wellWhiteSprite);
+		spriteHolder->setSpritePosition("wellWhite", 35, 45);
+		winWindow.draw(spriteHolder->getSpriteOfHolder("wellWhite"));
 	}
 
-	restartButtonSprite.setPosition(0, 445);
-	quitButtonSprite.setPosition(333, 445);
-
-	winWindow.draw(restartButtonSprite);
-	winWindow.draw(quitButtonSprite);
+	spriteHolder->setSpritePosition("restartButton", 0, 445);
+	spriteHolder->setSpritePosition("quitButton", 333, 445);
+	winWindow.draw(spriteHolder->getSpriteOfHolder("restartButton"));
+	winWindow.draw(spriteHolder->getSpriteOfHolder("quitButton"));
 }
 
 
@@ -224,120 +214,14 @@ void visualizeChips(sf::RenderWindow &window, BoxWithChips *box, SpriteHolder *s
 	spriteHolder->setSpritePosition("quitButton", 333, 445);
 
 	window.draw(spriteHolder->getSpriteOfHolder("box"));
-	window.draw(spriteHolder->getSpriteOfHolder("box"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_1"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_2"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_3"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_4"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_5"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_6"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_7"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_8"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_9"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_10"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_11"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_12"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_13"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_14"));
-	window.draw(spriteHolder->getSpriteOfHolder("chip_15"));
+
+	for (int i = 1; i <= 15; i++)
+	{
+		window.draw(spriteHolder->getSpriteOfHolder("chip_" + std::to_string(i)));
+	}
+	
 	window.draw(spriteHolder->getSpriteOfHolder("restartButton"));
 	window.draw(spriteHolder->getSpriteOfHolder("quitButton"));
-
-
-	//-------------------------------------------------------------
-
-	boxSprite.setPosition(0, 0);
-
-	int numberChip{};
-	for (int j = 0; j < box->getYNum(); ++j)
-	{
-		for (int i = 0; i < box->getXNum(); ++i)
-		{
-			numberChip = box->getBoxWithChips()[i + (j * 4)];
-			positionTheSprite(numberChip, float(15 + (i * 105)), float(15 + (j * 105)));
-		}
-	}
-
-	restartButtonSprite.setPosition(0, 445);
-	quitButtonSprite.setPosition(333, 445);
-
-	/*window.draw(boxSprite);
-	window.draw(chip_1_Sprite);
-	window.draw(chip_2_Sprite);
-	window.draw(chip_3_Sprite);
-	window.draw(chip_4_Sprite);
-	window.draw(chip_5_Sprite);
-	window.draw(chip_6_Sprite);
-	window.draw(chip_7_Sprite);
-	window.draw(chip_8_Sprite);
-	window.draw(chip_9_Sprite);
-	window.draw(chip_10_Sprite);
-	window.draw(chip_11_Sprite);
-	window.draw(chip_12_Sprite);
-	window.draw(chip_13_Sprite);
-	window.draw(chip_14_Sprite);
-	window.draw(chip_15_Sprite);
-	window.draw(restartButtonSprite);
-	window.draw(quitButtonSprite);*/
-}
-
-
-bool positionTheSprite(int numberSprite, float x, float y)
-{
-	switch (numberSprite)
-	{
-	case 1:
-		chip_1_Sprite.setPosition(x, y);
-
-		break;
-	case 2:
-		chip_2_Sprite.setPosition(x, y);
-		break;
-	case 3:
-		chip_3_Sprite.setPosition(x, y);
-		break;
-	case 4:
-		chip_4_Sprite.setPosition(x, y);
-		break;
-	case 5:
-		chip_5_Sprite.setPosition(x, y);
-		break;
-	case 6:
-		chip_6_Sprite.setPosition(x, y);
-		break;
-	case 7:
-		chip_7_Sprite.setPosition(x, y);
-		break;
-	case 8:
-		chip_8_Sprite.setPosition(x, y);
-		break;
-	case 9:
-		chip_9_Sprite.setPosition(x, y);
-		break;
-	case 10:
-		chip_10_Sprite.setPosition(x, y);
-		break;
-	case 11:
-		chip_11_Sprite.setPosition(x, y);
-		break;
-	case 12:
-		chip_12_Sprite.setPosition(x, y);
-		break;
-	case 13:
-		chip_13_Sprite.setPosition(x, y);
-		break;
-	case 14:
-		chip_14_Sprite.setPosition(x, y);
-		break;
-	case 15:
-		chip_15_Sprite.setPosition(x, y);
-		break;
-	default:
-		return false;
-		break;
-	}
-
-	return true;
 }
 
 
@@ -405,26 +289,5 @@ int initialization(SpriteHolder *spriteHolder)
 	spriteHolder->setSpriteInHolder("wellBlack", sf::Sprite(wellBlackTexture));
 	spriteHolder->setSpriteInHolder("wellWhite", sf::Sprite(wellWhiteTexture));
 
-	boxSprite.setTexture(boxTexture);
-	chip_1_Sprite.setTexture(chip_1_Texture);
-	chip_2_Sprite.setTexture(chip_2_Texture);
-	chip_3_Sprite.setTexture(chip_3_Texture);
-	chip_4_Sprite.setTexture(chip_4_Texture);
-	chip_5_Sprite.setTexture(chip_5_Texture);
-	chip_6_Sprite.setTexture(chip_6_Texture);
-	chip_7_Sprite.setTexture(chip_7_Texture);
-	chip_8_Sprite.setTexture(chip_8_Texture);
-	chip_9_Sprite.setTexture(chip_9_Texture);
-	chip_10_Sprite.setTexture(chip_10_Texture);
-	chip_11_Sprite.setTexture(chip_11_Texture);
-	chip_12_Sprite.setTexture(chip_12_Texture);
-	chip_13_Sprite.setTexture(chip_13_Texture);
-	chip_14_Sprite.setTexture(chip_14_Texture);
-	chip_15_Sprite.setTexture(chip_15_Texture);
-	restartButtonSprite.setTexture(restarButtonTexture);
-	quitButtonSprite.setTexture(quitButtonTexture);
-	wellBlackSprite.setTexture(wellBlackTexture);
-	wellWhiteSprite.setTexture(wellWhiteTexture);
-
-	return 0;
+		return 0;
 }
