@@ -10,7 +10,7 @@ void visualizeChips(sf::RenderWindow &, BoxWithChips *, SpriteHolder *);
 int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 bool checkChipMovement(sf::RenderWindow &, int, BoxWithChips *, SpriteHolder *);
 void winWindow(sf::RenderWindow &, sf::Clock, SpriteHolder *);
-void toTheLeftChipAnimation(sf::RenderWindow &, int, BoxWithChips *, SpriteHolder *);
+void moveChipAnimation(sf::RenderWindow &, int, std::string, BoxWithChips *, SpriteHolder *);
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -137,22 +137,25 @@ bool checkChipMovement(sf::RenderWindow &window, int globalNumChip, BoxWithChips
         return false;
     if ((globalNumChip % box->getYNum()) > 0 && (globalNumChip - 1) == box->getPosEmptyPlace())
     {
-        toTheLeftChipAnimation(window, globalNumChip, box, spriteHolder);
+        moveChipAnimation(window, globalNumChip, "left", box, spriteHolder);
         box->toTheLeftChip();
         return true;
     }
     if ((globalNumChip % box->getYNum()) < (box->getXNum() - 1) && (globalNumChip + 1) == box->getPosEmptyPlace())
     {
+        moveChipAnimation(window, globalNumChip, "right", box, spriteHolder);
         box->toTheRightChip();
         return true;
     }
     if ((globalNumChip / box->getXNum()) > 0 && (globalNumChip - box->getXNum()) == box->getPosEmptyPlace())
     {
+        moveChipAnimation(window, globalNumChip, "up", box, spriteHolder);
         box->toTheUpChip();
         return true;
     }
     if ((globalNumChip / box->getXNum()) < (box->getYNum() - 1) && (globalNumChip + box->getXNum()) == box->getPosEmptyPlace())
     {
+        moveChipAnimation(window, globalNumChip, "bottom", box, spriteHolder);
         box->toTheBottomChip();
         return true;
     }
@@ -297,10 +300,10 @@ int initialization(SpriteHolder *spriteHolder)
 }
 
 
-void toTheLeftChipAnimation(sf::RenderWindow &window, int globalNumber, BoxWithChips *box, SpriteHolder *spriteHolder)
+void moveChipAnimation(sf::RenderWindow &window, int globalNumber, std::string direction, BoxWithChips *box, SpriteHolder *spriteHolder)
 {
-    int chipNumber;
-    chipNumber = box->getChipTheGlobalNumber(globalNumber);
+    int chipNumberAnimation;
+    chipNumberAnimation = box->getChipTheGlobalNumber(globalNumber);
 
     sf::Clock clockAnimation;
     clockAnimation.restart();
@@ -329,8 +332,24 @@ void toTheLeftChipAnimation(sf::RenderWindow &window, int globalNumber, BoxWithC
             spriteHolder->setSpritePosition("restartButton", 0, 445);
             spriteHolder->setSpritePosition("quitButton", 333, 445);
 
-            pos = spriteHolder->getSpritePosition("chip_" + std::to_string(chipNumber));
-            spriteHolder->setSpritePosition("chip_" + std::to_string(chipNumber), pos.x - (10 * step), pos.y);
+            pos = spriteHolder->getSpritePosition("chip_" + std::to_string(chipNumberAnimation));
+
+            if (direction == "left")
+            {
+                spriteHolder->setSpritePosition("chip_" + std::to_string(chipNumberAnimation), pos.x - (10 * step), pos.y);
+            }
+            if (direction == "right")
+            {
+                spriteHolder->setSpritePosition("chip_" + std::to_string(chipNumberAnimation), pos.x + (10 * step), pos.y);
+            }
+            if (direction == "up")
+            {
+                spriteHolder->setSpritePosition("chip_" + std::to_string(chipNumberAnimation), pos.x, pos.y - (10 * step));
+            }
+            if (direction == "bottom")
+            {
+                spriteHolder->setSpritePosition("chip_" + std::to_string(chipNumberAnimation), pos.x, pos.y + (10 * step));
+            }
 
             window.draw(spriteHolder->getSpriteOfHolder("box"));
 
