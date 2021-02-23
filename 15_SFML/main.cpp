@@ -1,4 +1,6 @@
-﻿#include <SFML/Graphics.hpp>
+﻿constexpr auto SPEED_ANIMATION = 15;
+
+#include <SFML/Graphics.hpp>
 #include <string>
 #include "BoxWithChips.h"
 #include "SpriteHolder.h"
@@ -307,7 +309,7 @@ void toTheLeftChipAnimation(sf::RenderWindow &window, int globalNumber, BoxWithC
     sf::Vector2<float> pos;
     while (step < 10)
     {
-        if (clockAnimation.getElapsedTime().asMilliseconds() > 10 * step)
+        if (clockAnimation.getElapsedTime().asMilliseconds() > SPEED_ANIMATION * step)
         {
             step += 1;
 
