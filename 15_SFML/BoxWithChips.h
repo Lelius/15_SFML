@@ -11,9 +11,9 @@ public:
 	BoxWithChips(int, int);
 	~BoxWithChips();
 
-	
+
 	const int *getBoxWithChips();
-	const int getSizeBox();
+	const int getSizeBox() const;
 	const int getXNum();
 	const int getYNum();
 
@@ -25,15 +25,18 @@ public:
 	bool toTheRightChip();
 	bool toTheUpChip();
 	bool toTheBottomChip();
-	void buildInOrederChips();
+	void buildInOrderChips();
+	int  getChipTheGlobalNumber(int);
 
 private:
 	bool setSizeBox(int);
-	
+
 
 	int xNum;
 	int yNum;
 	int sizeBox;
 	int *boxWithChips;
 };
+
+
 

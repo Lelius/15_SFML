@@ -50,8 +50,16 @@ void SpriteHolder::setSpritePosition(std::string nameSprite, float x, float y)
 
     *sprite = getSpriteOfHolder(nameSprite);
     deleteSpriteOfHolder(nameSprite);
-    sprite->setPosition(x ,y);
+    sprite->setPosition(x, y);
     setSpriteInHolder(nameSprite, *sprite);
 
     delete sprite;
+}
+
+sf::Vector2f SpriteHolder::getSpritePosition(std::string nameSprite) {
+    if (!isEmptySpriteHolder())
+    {
+        return mapSprite[nameSprite].getPosition();
+    }
+    return sf::Vector2f(3000, 3000);
 }

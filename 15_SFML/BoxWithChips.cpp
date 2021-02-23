@@ -23,14 +23,14 @@ BoxWithChips::~BoxWithChips()
 	delete[] BoxWithChips::boxWithChips;
 }
 
-const int BoxWithChips::getSizeBox()
+const int BoxWithChips::getSizeBox() const
 {
 	return sizeBox;
 }
 
 bool BoxWithChips::setSizeBox(int sizeBox)
 {
-	if (sizeBox < (2 * 2) || sizeBox > (6 * 6))
+	if (sizeBox < (2 * 2) || sizeBox >(6 * 6))
 		return false;
 
 	this->sizeBox = sizeBox;
@@ -157,7 +157,7 @@ bool BoxWithChips::toTheBottomChip()
 	}
 }
 
-void BoxWithChips::buildInOrederChips()
+void BoxWithChips::buildInOrderChips()
 {
 	for (int i = 0; i < getSizeBox() - 1; ++i)
 		boxWithChips[i] = i + 1;
@@ -167,4 +167,8 @@ void BoxWithChips::buildInOrederChips()
 const int *BoxWithChips::getBoxWithChips()
 {
 	return boxWithChips;
+}
+
+int BoxWithChips::getChipTheGlobalNumber(int globalNumber) {
+	return boxWithChips[globalNumber];
 }
