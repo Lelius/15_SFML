@@ -1,4 +1,6 @@
 ﻿constexpr auto SPEED_ANIMATION = 15;
+constexpr auto VIDEO_X = 445;
+constexpr auto VIDEO_Y = 495;
 
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -11,6 +13,9 @@ int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 bool checkChipMovement(sf::RenderWindow &, int, BoxWithChips *, SpriteHolder *);
 void winWindow(sf::RenderWindow &, sf::Clock, SpriteHolder *);
 void moveChipAnimation(sf::RenderWindow &, int, std::string, BoxWithChips *, SpriteHolder *);
+template <typename T,typename N>
+T rectMultCoeff(T, N, N);
+
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -23,7 +28,7 @@ int main()
 {
     // Объект, который, собственно, является главным окном приложения
     const wchar_t *nameWindow = L"Пятнашки";
-    sf::RenderWindow window(sf::VideoMode(445, 495), nameWindow);
+    sf::RenderWindow window(sf::VideoMode(VIDEO_X, VIDEO_Y), nameWindow);
     window.setVerticalSyncEnabled(true);
 
     sf::Clock clock;
@@ -92,13 +97,22 @@ int main()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
+                    sf::Vector2f currentMousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
 
-                    if (sf::Mouse::getPosition(window).x >= 0 && sf::Mouse::getPosition(window).x < 332)
-                        if (sf::Mouse::getPosition(window).y >= 445 && sf::Mouse::getPosition(window).y < 495)
+                    sf::Vector2u sizeWindow = window.getSize();
+                    float coeffX = float(window.getSize().x) / VIDEO_X;     //Поправочные коэффициенты при изменении размера окна
+                    float coeffY = float(window.getSize().y) / VIDEO_Y;
+
+                    sf::FloatRect rectRestartButton = spriteHolder->getSpriteOfHolder("restartButton").getGlobalBounds();
+                    rectRestartButton = rectMultCoeff(rectRestartButton, coeffX, coeffY);
+                    if (rectRestartButton.contains(currentMousePosition))
                             boxWithChips->randomChips();
-                    if (sf::Mouse::getPosition(window).x >= 333 && sf::Mouse::getPosition(window).x < 445)
-                        if (sf::Mouse::getPosition(window).y >= 445 && sf::Mouse::getPosition(window).y < 495)
+
+                    sf::FloatRect rectQuitButton = spriteHolder->getSpriteOfHolder("quitButton").getGlobalBounds();
+                    rectQuitButton = rectMultCoeff(rectQuitButton, coeffX, coeffY);
+                    if (rectQuitButton.contains(currentMousePosition))
                             window.close();
+
                     if (!boxWithChips->isMatchingChips())
                         checkChipMovement(window, getGlobalNumInBox(sf::Mouse::getPosition(window), boxWithChips), boxWithChips, spriteHolder);
                 }
@@ -364,4 +378,17 @@ void moveChipAnimation(sf::RenderWindow &window, int globalNumber, std::string d
             window.display();
         }
     }
+}
+
+
+//Шаблонная функция для семейства класса sfml sf::Rect (sf::FloatRect, sf::IntRect)
+template <typename T, typename N>
+T rectMultCoeff(T rect, N coeffX, N coeffY)
+{
+    rect.left *= coeffX;
+    rect.width *= coeffX;
+    rect.top *= coeffY;
+    rect.height *= coeffY;
+
+    return T(rect);
 }
