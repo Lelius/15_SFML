@@ -108,7 +108,7 @@ int main()
                         window.close();
 
                     if (!boxWithChips->isMatchingChips())
-                        checkChipMovement(window, getGlobalNumInBox(sf::Mouse::getPosition(window), boxWithChips), boxWithChips, spriteHolder);
+                        checkChipMovement(window, getGlobalNumInBox(sf::Vector2i(correctMousePosition), boxWithChips), boxWithChips, spriteHolder);
                 }
             }
 
