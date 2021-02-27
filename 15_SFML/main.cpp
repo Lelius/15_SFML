@@ -13,9 +13,6 @@ int getGlobalNumInBox(sf::Vector2i, BoxWithChips *);
 bool checkChipMovement(sf::RenderWindow &, int, BoxWithChips *, SpriteHolder *);
 void winWindow(sf::RenderWindow &, sf::Clock, SpriteHolder *);
 void moveChipAnimation(sf::RenderWindow &, int, std::string, BoxWithChips *, SpriteHolder *);
-template <typename T,typename N>
-T rectMultCoeff(T, N, N);
-
 
 sf::Texture boxTexture;
 sf::Texture chip_1_Texture, chip_2_Texture, chip_3_Texture, chip_4_Texture, chip_5_Texture;
@@ -97,21 +94,18 @@ int main()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    sf::Vector2f currentMousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-
                     sf::Vector2u sizeWindow = window.getSize();
-                    float coeffX = float(window.getSize().x) / VIDEO_X;     //Поправочные коэффициенты при изменении размера окна
-                    float coeffY = float(window.getSize().y) / VIDEO_Y;
+                    float coeffX = VIDEO_X / float(window.getSize().x);     // Коэффициенты поправки для позиции мышм при изменении размеров окна
+                    float coeffY = VIDEO_Y / float(window.getSize().y);
+                    sf::Vector2f correctMousePosition = sf::Vector2f(sf::Mouse::getPosition(window).x * coeffX, sf::Mouse::getPosition(window).y * coeffY);
 
                     sf::FloatRect rectRestartButton = spriteHolder->getSpriteOfHolder("restartButton").getGlobalBounds();
-                    rectRestartButton = rectMultCoeff(rectRestartButton, coeffX, coeffY);
-                    if (rectRestartButton.contains(currentMousePosition))
+                    if (rectRestartButton.contains(correctMousePosition))
                             boxWithChips->randomChips();
 
                     sf::FloatRect rectQuitButton = spriteHolder->getSpriteOfHolder("quitButton").getGlobalBounds();
-                    rectQuitButton = rectMultCoeff(rectQuitButton, coeffX, coeffY);
-                    if (rectQuitButton.contains(currentMousePosition))
-                            window.close();
+                    if (rectQuitButton.contains(correctMousePosition))
+                        window.close();
 
                     if (!boxWithChips->isMatchingChips())
                         checkChipMovement(window, getGlobalNumInBox(sf::Mouse::getPosition(window), boxWithChips), boxWithChips, spriteHolder);
@@ -378,17 +372,4 @@ void moveChipAnimation(sf::RenderWindow &window, int globalNumber, std::string d
             window.display();
         }
     }
-}
-
-
-//Шаблонная функция для семейства класса sfml sf::Rect (sf::FloatRect, sf::IntRect)
-template <typename T, typename N>
-T rectMultCoeff(T rect, N coeffX, N coeffY)
-{
-    rect.left *= coeffX;
-    rect.width *= coeffX;
-    rect.top *= coeffY;
-    rect.height *= coeffY;
-
-    return T(rect);
 }
