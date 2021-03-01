@@ -28,6 +28,10 @@ int main()
     sf::RenderWindow window(sf::VideoMode(VIDEO_X, VIDEO_Y), nameWindow);
     window.setVerticalSyncEnabled(true);
 
+    sf::Image imageIcon;
+    imageIcon.loadFromFile("image/15_icon_48x48.png");
+    window.setIcon(imageIcon.getSize().x, imageIcon.getSize().y, imageIcon.getPixelsPtr());
+
     sf::Clock clock;
     clock.restart();
 
