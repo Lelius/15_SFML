@@ -153,7 +153,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoxWithChips.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SpriteHolder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="15_SFML1.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Debug\image\15_icon_48x48.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
